@@ -5,24 +5,24 @@ calc = Pyro4.Proxy("PYRONAME:calculadoraTop")
 
 
 class Calculator:
-    ''' main class that constructs the calc and preforms the calculations '''
+    '''clase principal que construye el cálculo y realiza los cálculos'''
      
     def __init__(self, master):
-        # Global variables needed throughout a single calculation
-        self.top_string = ''    # string for label at top of calculator
-        self.number1 = 0       # storage of first number selected
-        self.number2 = 0       # storage of second number selected
-        self.add = False       # + boolean
-        self.subtract = False  # - boolean
-        self.multiply = False  # x boolean
-        self.divide = False  # / boolean
+        # Variables globales necesarias a lo largo de un solo cálculo
+        self.top_string = ''    # cadena para la etiqueta en la parte superior de la calculadora
+        self.number1 = 0       # almacenamiento del primer número seleccionado
+        self.number2 = 0       # almacenamiento del segundo número seleccionado
+        self.add = False       # + booleano
+        self.subtract = False  # - booleano
+        self.multiply = False  # X booleano
+        self.divide = False  # / booleano
 
-        # Top Label Layout
+        # Diseño de la etiqueta superior
         self.label = Tk.Label(master, text='0', bg='black', fg='white', height=2, width=4)
         self.label.grid(row=0, column=0, columnspan=4, sticky=Tk.N+Tk.E+Tk.S+Tk.W)
         self.label.config(font='Verdana 16 bold')
 
-        # Button Layout
+        # Diseño del botón
         Tk.Button(master, text='1', height=2, width=6, command=lambda: self.number_pressed(1)).grid(row=1, column=0)
         Tk.Button(master, text='2', height=2, width=6, command=lambda: self.number_pressed(2)).grid(row=1, column=1)
         Tk.Button(master, text='3', height=2, width=6, command=lambda: self.number_pressed(3)).grid(row=1, column=2)
@@ -41,7 +41,7 @@ class Calculator:
         Tk.Button(master, text='=', height=2, command=self.equals).grid(row=5, columnspan=4, sticky=Tk.N+Tk.E+Tk.S+Tk.W)
 
     def number_pressed(self, button_number):
-        ''' This function is triggered when buttons 0 - 9 are pushed '''
+        '''Esta función se activa cuando se presionan los botones 0 - 9'''
         if self.number1 is 0 and not any([self.add, self.subtract, self.multiply, self.divide]):
             self.number1 = button_number
             self.top_string = str(button_number)
@@ -64,32 +64,33 @@ class Calculator:
 
 
     def sign_pressed(self, sign):
-        ''' This function is triggered when +,-,*, or / is pushed. First check num1 and num2 are already storage.
-        If so, it performs an num1 equals total, then displays num1, then resets the sign to the last on pushed.
-        Which allows for multiply calculations before pushing = button '''
+        '''Esta función se activa cuando se presiona +, -, * o /. Las primeras comprobaciones num1 y num2 ya están almacenadas.' \
+        'Si es así, realiza un num1 igual al total, luego muestra num1, luego restablece el signo al último en que se presionó.
+        Lo que permite multiplicar los cálculos antes de presionar el botón = '''
+
         if self.number2 is not 0 and self.number1 is not 0:
             self.number1 = self.equals()
             self.label.config(text=str(self.number1))
             self.top_string = ''
         if sign is "+":
             self.add = True
-            self.subtract = False  # - boolean
-            self.multiply = False  # x boolean
+            self.subtract = False  # - booleano
+            self.multiply = False  # X booleano
             self.divide = False
         if sign is "-":
             self.add = False
-            self.subtract = True  # - boolean
-            self.multiply = False  # x boolean
+            self.subtract = True  # - booleano
+            self.multiply = False  # X booleano
             self.divide = False
         if sign is "*":
             self.add = False
-            self.subtract = False  # - boolean
-            self.multiply = True  # x boolean
+            self.subtract = False  # - booleano
+            self.multiply = True  # x booleano
             self.divide = False
         if sign is "/":
             self.add = False
-            self.subtract = False  # - boolean
-            self.multiply = False  # x boolean
+            self.subtract = False  # - booleano
+            self.multiply = False  # X booleano
             self.divide = True
         else:
             if sign is "+":
@@ -102,11 +103,11 @@ class Calculator:
                 self.divide = True
 
     def equals(self):
-        ''' Triggers calculation then clears all vars '''
+        '''El cálculo de los desencadenadores borra todos los valores'''
         total = 0
         if self.add is True:
             total = calc.somar(self.number1, self.number2)
-            self.number2 = 0    # resets for next calculation if clear is not presses
+            self.number2 = 0    #  reinicia para el siguiente cálculo si no se pulsa "Borrar"
 
         elif self.subtract is True:
             total = calc.subtrair(self.number1, self.number2)
@@ -130,19 +131,19 @@ class Calculator:
         return total
 
     def clear_all(self):
-        '''Clears all vars'''
-        self.top_string = ''    # first string to appear after selecting sign ( 9 + )
-        self.number1 = 0       # storage of first number selected
-        self.number2 = 0       # storage of second number selected
-        self.add = False       # + boolean
-        self.subtract = False  # - boolean
-        self.multiply = False  # x boolean
-        self.divide = False    # / boolean
-        self.label.config(text='0')  # top label
+        '''Borra todos los valores'''
+        self.top_string = ''   # primera cadena que aparece después de seleccionar el signo (9 +)
+        self.number1 = 0       # almacenamiento del primer número seleccionado
+        self.number2 = 0       # almacenamiento del segundo número seleccionado
+        self.add = False       # + booleano
+        self.subtract = False  # - booleano
+        self.multiply = False  # x booleano
+        self.divide = False    # / booleano
+        self.label.config(text='0') # etiqueta superior
 
 if __name__ == '__main__':
     ROOT = Tk.Tk()
-    ROOT.wm_title('Calculator')
+    ROOT.wm_title('Calculadora')
     ROOT.resizable(width=False, height=False)
     Calculator(ROOT)
     ROOT.mainloop()

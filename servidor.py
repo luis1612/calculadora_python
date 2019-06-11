@@ -19,13 +19,13 @@ class Calculadora(object):
             resultado = entrada1 / entrada2
             return resultado
         except ZeroDivisionError:
-            return "Divisão Inválida"
+            return "División Inválida"
         
 
-daemon = Pyro4.Daemon()                # make a Pyro daemon
-ns = Pyro4.locateNS()                  # find the name server
-uri = daemon.register(Calculadora)   # register the greeting maker as a Pyro object
-ns.register("calculadoraTop", uri)   # register the object with a name in the name server
+daemon = Pyro4.Daemon()                # hacer un demonio Pyro
+ns = Pyro4.locateNS()                  # encontrar el servidor de nombres
+uri = daemon.register(Calculadora)   # registrar el fabricante de saludo como un objeto Pyro
+ns.register("calculadoraTop", uri)   # registrar el objeto con un nombre en el servidor de nombres
 
-print("Ready.")
-daemon.requestLoop()                   # start the event loop of the server to wait for calls
+print("LISTO!.")
+daemon.requestLoop()                   # iniciar el bucle de eventos del servidor para esperar las llamadas
